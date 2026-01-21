@@ -804,7 +804,7 @@ function createSession(options: CreateSessionRequest = {}): Promise<ManagedSessi
       '-d',
       '-s', tmuxSession,
       '-c', cwd,
-      `PATH=${EXEC_PATH} ${claudeCmd}`
+      `bash -c 'export PATH="${EXEC_PATH}"; ${claudeCmd}'`
     ], EXEC_OPTIONS, (error) => {
       if (error) {
         log(`Failed to spawn session: ${error.message}`)
@@ -1958,7 +1958,7 @@ function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
           '-d',
           '-s', session.tmuxSession,
           '-c', cwd,
-          `PATH=${EXEC_PATH} claude -c --permission-mode=bypassPermissions --dangerously-skip-permissions`
+          `bash -c 'export PATH="${EXEC_PATH}"; claude -c --permission-mode=bypassPermissions --dangerously-skip-permissions'`
         ], EXEC_OPTIONS, (error) => {
           if (error) {
             res.writeHead(500, { 'Content-Type': 'application/json' })
